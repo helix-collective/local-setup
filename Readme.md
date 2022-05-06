@@ -21,3 +21,9 @@ Clone this repo and change the `import_map.json` to point to the local checkout.
 - Change the `import_map.json` to point to the tag in our repo.
 - Test it.
 - Create a PR.
+
+## Accepting PRs
+
+_until automated_
+
+After merge a PR, push a new tag.
