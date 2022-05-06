@@ -52,7 +52,7 @@ fi
 
 # Now use a deno script to install all other local tooling
 deno run \
-  --quiet \
+--log-level info \
   --unstable \
   --allow-all \
   --import-map $reporoot/tools/import_map.json \
