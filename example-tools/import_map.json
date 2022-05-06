@@ -1,0 +1,5 @@
+{
+  "imports": {
+     "local-setup/": "https://github.com/helix-collective/local-setup/raw/v1.0.0/"
+  }
+}
