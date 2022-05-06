@@ -4,9 +4,9 @@ _and example `tools` code_
 ## TL;DR
 
 To set this up for a new project;
-- code the tools directory into your project
-- run `source tools/local-setup.sh`
-- add `/.local/` to your `.gitignore`
+- Add code the tools directory into your project
+- Run `source tools/local-setup.sh`
+- Add `/.local/` to your `.gitignore`
 
 ## Making Changes
 
