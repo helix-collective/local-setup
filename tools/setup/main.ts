@@ -8,14 +8,13 @@ import {
   Installable,
 } from "local-setup/setuputils.ts";
 
-const DENO = packages.deno("1.18.2")
+const DENO = packages.deno("1.36.1")
 const ADL = packages.helixadl("1.1.6")
 const AWSCLI = packages.awscli("2.2.18");
 const NODE = packages.nodejs("16.13.0")
 const YARN = packages.yarn("1.22.15")
 const JDK = packages.adoptopenjdk("11.0.12+7")
 const DNIT = packages.dnit("1.12.9")
-const GRADLE = packages.gradle("7.4")
 
 export async function main() {
   if (Deno.args.length != 1) {
@@ -33,7 +32,6 @@ export async function main() {
     forPlatform(NODE, platform),
     forPlatform(JDK, platform),
     DNIT,
-    GRADLE,
     YARN,
   ];
 
