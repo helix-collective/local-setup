@@ -5,6 +5,7 @@ import * as fs from "https://deno.land/std@0.101.0/fs/mod.ts";
 // Variants of something that depends on platform
 export type MultiPlatform<T> = {
   darwin_x86_64: T;
+  darwin_aarch64?: T;
   linux_x86_64: T;
 };
 
@@ -42,7 +43,17 @@ export function addToPath(directory: string) : EnvAction {
 }
 
 export function forPlatform<T>(multi: MultiPlatform<T>, platform: Platform): T {
-  return multi[platform];
+  const platformResult = multi[platform];
+  if (platformResult) {
+    return platformResult;
+  }
+
+  if (platform === "darwin_aarch64") {
+    // M1 Macs should be compatible with Intel binaries via Rosetta. So we should be able to fallback to the X64 build.
+    return forPlatform(multi, "darwin_x86_64");
+  }
+
+  throw new Error("Could nto run for platform " + platform);
 }
 
 export function mapPlatform<A, B>(
@@ -61,9 +72,7 @@ export function getHostPlatform(): Platform {
   } else if (Deno.build.os === "darwin" && Deno.build.arch === "x86_64") {
     return "darwin_x86_64";
   } else if (Deno.build.os === "darwin" && Deno.build.arch === "aarch64") {
-    // M1 Macs are compatible with Intel binaries via Rosetta
-    // todo(alex): Investigate sourcing of ARM specific builds (with fallback)
-    return "darwin_x86_64";
+    return "darwin_aarch64";
   } else {
     throw new Error(
       `Platform ${Deno.build.os}-${Deno.build.arch} not supported`,
@@ -160,6 +169,7 @@ export async function getDownloadCacheDir(): Promise<string> {
   }
   switch (getHostPlatform()) {
     case "darwin_x86_64":
+    case "darwin_aarch64":
       cachedir = path.join(homedir, "Library/Caches/hxtools");
       break;
     case "linux_x86_64":
