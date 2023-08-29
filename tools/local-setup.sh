@@ -34,7 +34,7 @@ else
 fi
 
 #  Fetch deno if not already downloaded
-denoversion=1.18.2
+denoversion=1.36.1
 release=https://github.com/denoland/deno/releases/download/v$denoversion/deno-$arch.zip
 download=$cachedir/deno-v$denoversion-$arch.zip
 if [ ! -f "$download" ]; then
@@ -52,7 +52,8 @@ fi
 
 # Now use a deno script to install all other local tooling
 deno run \
---log-level info \
+  --check \
+  --log-level info \
   --unstable \
   --allow-all \
   --import-map $reporoot/tools/import_map.json \

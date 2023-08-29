@@ -148,6 +148,36 @@ export function bazel(version: string): MultiPlatform<Installable> {
   return mapPlatform(urls, install);
 }
 
+export function pulumi(version: string): MultiPlatform<Installable> {
+  const urls: MultiPlatform<DownloadFile> = {
+    darwin_aarch64: {
+      url: `https://get.pulumi.com/releases/sdk/pulumi-v${version}-darwin-arm64.tar.gz`,
+      cachedName: `pulumi-v${version}-darwin-arm64.tar.gz`
+    },
+    darwin_x86_64: {
+      url: `https://get.pulumi.com/releases/sdk/pulumi-v${version}-darwin-x64.tar.gz`,
+      cachedName: `pulumi-v${version}-darwin-x64.tar.gz`
+    },
+    linux_x86_64: {
+      url: `https://get.pulumi.com/releases/sdk/pulumi-v${version}-linux-x64.tar.gz`,
+      cachedName: `pulumi-v${version}-linux-x64.tar.gz`
+    }
+  }
+
+  function install(df: DownloadFile): Installable {
+    const installable = tarPackage(df, "--gzip");
+    return {
+      manifestName: installable.manifestName,
+      install: installable.install,
+      env: (localdir) => ([
+        addToPath(path.join(localdir as string, "pulumi"))
+      ])
+    };
+  }
+
+  return mapPlatform(urls, install);
+}
+
 // gradle installable
 export function gradle(version: string): Installable {
   const url: DownloadFile = {
