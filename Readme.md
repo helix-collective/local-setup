@@ -1,3 +1,10 @@
+
+**This repo is deprecated**
+
+Please use https://github.com/adl-lang/local-setup
+
+----------------------
+
 # Local Setup Deno Library
 _and example `tools` code_
 
